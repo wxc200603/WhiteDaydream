@@ -7,7 +7,7 @@ public class Book : MonoBehaviour, IInteractable
 {
     [HideInInspector]
     public bool hasInteracted = false;
-    public BoxCollider2D exitTrigger;
+    public BoxCollider2D []exitTrigger;
     public void Interact()
     {
         if(!hasInteracted)
@@ -38,10 +38,13 @@ public class Book : MonoBehaviour, IInteractable
 
                 foreach (var result in results)
                 {
-                    if (result.gameObject == exitTrigger.gameObject) // ← exitTrigger 是你的 BoxCollider2D
+                    foreach(var exitArea in exitTrigger)
                     {
-                        UiManager.instance.CloseBook();
-                        yield break;
+                        if (result.gameObject == exitArea.gameObject) // ← exitTrigger 是你的 BoxCollider2D
+                        {
+                            UiManager.instance.CloseBook();
+                            yield break;
+                        }
                     }
                 }
             }
